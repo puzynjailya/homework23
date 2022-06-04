@@ -74,6 +74,14 @@ def perform_query():
 
     # Если заданы оба параметра, то выполняется цепочка запросов
     else:
+
+        try:
+            if not (query_validation(cmd1, value1) or query_validation(cmd2, value2)):
+                return abort(400)
+        except CommandQueryError as error:
+            print(f'Ошибка в запросе cmd\n {error}')
+            return abort(400), 'Упс'
+
         try:
             query1 = Query(cmd1, value1)
             query2 = Query(cmd2, value2)
