@@ -39,9 +39,9 @@ def query_validation(cmd: str, value: str) -> bool:
 def run_single_param(cmd: str, value: str, datafile: Iterable[str]) -> Union[list | dict]:
     try:
         query: Query = Query(cmd, value)
-        result: List[str] = list(query.execute_query(datafile))
-        result: list = [row + '\n' for row in result]
-        return result
+        query_execution: List[str] = list(query.execute_query(datafile))
+        output_list: list = [row + '\n' for row in query_execution]
+        return output_list
 
     except IndexError:
         return {"Ошибка": "Проверьте корректность выполняемого запроса"}
@@ -55,10 +55,10 @@ def run_double_param(cmd1: str,
     try:
         query1: Query = Query(cmd1, value1)
         query2: Query = Query(cmd2, value2)
-        result: Iterable[str] = query1.execute_query(datafile)
-        result: List[str] = list(query2.execute_query(result))
-        result: list = [row + '\n' for row in result]
-        return result
+        query1_execution: Iterable[str] = query1.execute_query(datafile)
+        query2_execution: List[str] = list(query2.execute_query(query1_execution))
+        output_list: list = [row + '\n' for row in query2_execution]
+        return output_list
 
     except IndexError:
         return {"Ошибка": "Проверьте корректность выполняемого запроса"}
